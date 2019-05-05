@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>游厦门-注册</title>
+    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.min.js"></script>
+</head>
+
+<body>
+    <div class="wra">
+        <div class="top">
+            <div class="logo">
+                <a href="/index.html" class="logo-pic"></a>
+            </div>
+            <div class="login-btn">
+                <p>
+                    <span>已有账号？</span>
+                    <button type="button" class="btn btn-warning">登录</button>
+                </p>
+            </div>
+        </div>
+        <div class="register-wra">
+            <div class="form-wra">
+                <form class="form-horizontal" id="registerForm">
+                    <div class="form-group" :class="unClass">
+                        <label for="username" class="col-sm-3 control-label">用户名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control " v-model="username" @blur="checkUserName" id="username"
+                                aria-describedby="helpBlock">
+                            <span id="helpBlock" class="help-block">{{unText}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group" :class="psdClass">
+                        <label for="psd" class="col-sm-3 control-label">密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control " v-model="psd" @blur="checkPsd" id="psd"
+                                aria-describedby="helpBlock1">
+                            <span id="helpBlock1" class="help-block">{{psdText}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group" :class="rePsdClass">
+                        <label for="rePsd" class="col-sm-3 control-label">确认密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control " v-model="rePsd" @blur="checkRePsd" id="rePsd"
+                                aria-describedby="helpBlock2">
+                            <span id="helpBlock2" class="help-block">{{rePsdText}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group" :class="codeClass">
+                        <label for="code" class="col-sm-3 control-label">验证码</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control " v-model="code" @blur="checkCode" id="code"
+                                aria-describedby="helpBlock3" >
+                                <span v-html="vcode" @click="getRandomCode"></span>
+                        </div>
+                        <span id="helpBlock3" class="help-block">{{codeText}}</span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-8">
+                            <button type="submit" class="btn btn-warning" @click.prevent="register">注册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./js/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+html,body{
+    overflow: hidden;
+}
+#myCarousel{
+    width:100%;
+    height:100%;
+}
+/* #myCarousel  img{
+    width:100%;
+    height:100%;
+} */
+#myCarousel .carousel-caption{
+    position: absolute;
+    top:500px;
+    font-size:50px;
+    letter-spacing: 10px;
+
+}
+.center-wra{
+    position: absolute;
+    top:0;
+    width:0;
+    height:0;
+    margin-top:150px;
+    background:#fff;
+}
+.center-wra > div{
+    position: absolute;
+}
+
+.title-wra{
+    left:50px;
+    width:400px;
+    color:rgba(255, 255, 255, 0.75);
+}
+.title-wra h2{
+    font-size:50px;
+}
+.search-wra{
+    left:465px;
+    background:rgba(0, 0, 0, 0.5);
+    width:600px;
+    height:70px;
+    border-radius: 10px;
+    padding-top:5px;
+}
+#search-inp{
+    position: relative;
+    top:-29px;
+    left:30px;
+    height:50px;
+    width:500px;
+    border:1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    vertical-align:middle;
+    padding-left:10px;
+    font-size:20px;
+}
+.search-btn{
+    position: relative;
+    left:10px;
+    top:-7px;
+    font-size:45px;
+    color:rgba(255, 255, 255, 0.75);
+    margin-top:20px;
+    cursor: pointer;
+}
+.search-btn:hover{
+    color:#fff;
+}
+

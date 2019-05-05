@@ -1,0 +1,56 @@
+*{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow: hidden;
+}
+.wra{
+    width:100%;
+    height:100%;
+    background: url(../img/swiper4.jpg);
+    background-size:cover;
+    background-position: 0 -300px;
+    background-repeat: no-repeat;
+    display: flex;
+    padding:0px 50px;
+}
+.left{
+    width:400px;
+    /* border:1px solid#fff; */
+    height:300px;
+    background: url(../img/logoko2.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.right{
+    width:402px;
+    margin:100px 0 0 100px;
+}
+.title{
+    font-size:50px;
+    color:#fff;
+    text-align: center;
+    margin-bottom:50px;
+}
+.control-label{
+    color:#fff;
+    text-align: left!important;
+}
+.btn{
+    width:100%;
+}
+.tips{
+    /* padding-left:372px; */
+    text-align: right;
+    color:#fff;
+}
+.tips a,
+.tips a:hover
+{
+    color:#21C48E;
+}

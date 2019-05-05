@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/detailCommon.css">
+    <link rel="stylesheet" href="./css/hotelDetail.css">
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.min.js"></script>
+</head>
+
+<body>
+    <div class="top" style="height:80px;">
+        <div class="top-login" style="height:80px; ">
+            <div class="login-wra" id="loginTop">
+                <div class="row">
+                    <div class="col-lg-2" style="height:80px;overflow: hidden;"> <img src="./img/logoko1.png" alt=""
+                            style="float:left;width:180px;height:90px;"></div>
+                    <div class="col-lg-6">
+                        <div class="search-wra">
+                            <div class="search-con">
+                                <input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略">
+                                <div class="search-btn"><i class="glyphicon glyphicon-search"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="/login.html" v-show="!isLogin" style="color:#fff;line-height:80px;font-size:20px;">登录</a>
+                        <ul class="nav navbar-nav navbar-right" v-show="isLogin">
+                            <li><a href="#">
+                                    <img :src=" user.pic " alt="" style="width:50px;height:50px;border-radius:50%;">
+                                </a></li>
+                            <li class="dropdown" style="margin-top:20px;">
+                                <a href="#" style="color:#fff;font-size:18px;" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    {{user.username}}
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="z-index:10;">
+                                    <li><a href="#" @click.prevent="loginOut">登出</a></li>
+                                    <li><a href="#" @click.prevent="goCheckUser">个人资料</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="./js/user.js"></script>
+    <div class="content" id="hotelDetail">
+        <div class="hotel-wra">
+            <div class="left">
+                <div class="crumb">
+                    <ol class="breadcrumb">
+                        <li><a href="/index.html">游厦门</a></li>
+                        <li><a href="/hotel.html">酒店</a></li>
+                        <li class="active">{{hotel.name}}</li>
+                    </ol>
+                </div>
+                <div class="hotel-content">
+                    <div class="hotel-title">
+                        <div class="hotel-top">
+                            <div class="top-left">
+                                <h1 class="hotel-name">{{hotel.name}}</h1>
+                                <p class="hotel-addr">{{hotel.address}}</p>
+                                <p class="hotel-money">￥<span>{{hotel.money}} </span>起</p>
+                            </div>
+                            <div class="hotel-grade">
+                                <p> <span class="grade">{{hotel.grade}}</span>分</p>
+                            </div>
+                        </div>
+                        <div class="hotel-pic">
+                            <img :src="hotel.pic" alt="">
+                        </div>
+                    </div>
+                    <div class="hotel-msg">
+                        <h4>详细信息</h4>
+                        <div class="msg-detail">
+                            <div class="detail-item">
+                                <span class="detail-name">联系方式</span>
+                                <span class="detail-msg">{{hotel.phone}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-name">酒店简介</span>
+                                <span class="detail-msg">{{hotel.introduction}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hotel-device">
+                        <h4>酒店设备</h4>
+                        <ul>
+                            <li v-for="item in hotel.device">{{item}}<i class="glyphicon glyphicon-ok"></i></li>
+                        </ul>
+                    </div>
+                    <div class="booking-comment ">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation" :class="activeName == 'first'?'active':''"><a href="#"
+                                    @click.prevent="activeName = 'first'">房型预订</a></li>
+                            <li role="presentation" :class="activeName == 'second'?'active':''"><a href="#"
+                                    @click.prevent="activeName = 'second'">用户评论</a></li>
+                        </ul>
+                        <div class="hotel-booking " v-show="activeName == 'first'">
+                            <div class="booking-item row" v-for="room in roomList" :key="room.id">
+                                <div class="booking-pic col-md-3">
+                                    <img :src="room.pic" alt="">
+                                </div>
+                                <div class="booking-title col-md-6">
+                                    <p class="booking-name">{{room.title}}</p>
+                                    <p class="booking-money">￥<span>{{room.money}}</span></p>
+                                    <p class="booking-num">还剩<span>{{room.num}}</span>间</p>
+                                </div>
+                                <div class="booking-btn col-md-3">
+                                    
+                                    <button type="button" class="btn btn-warning" :class="room.num == 0?'btn-danger':''"
+                                        :disabled="room.num == 0" 
+                                        @click="chooseRoom(room.id)"
+                                        data-toggle="modal" data-target="#myModal">{{room.num
+                                        ==0?'满房':'预定'}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hotel-comment" v-show="activeName == 'second'">
+                            <div class="comment-inp" id="comment">
+                                <input type="hidden" id="commentParent" v-model="parentId">
+                                <textarea class="_j_comment_content" v-model="commentText" :disabled="isLogin"
+                                    :placeholder="parentId? '回复@'+parentUserName+':' :'评论一下吧'"></textarea>
+                                <button type="button" class="toComment-btn" :disabled="isLogin" @click="addComment(hotel.id)">评论</button>
+                            </div>
+                            <h3>网友评论 ({{commentTotal}})</h3>
+                            <div class="comment-item" v-for="comment in commentList">
+                                <div class="headpic">
+                                    <img :src="comment.userpic == 'null' ? './img/19.jpg':comment.userpic" alt="">
+                                </div>
+                                <div class="comment-detail">
+                                    <h4 class="comment-username">{{comment.username}} <strong>回复：{{comment.parent_username}}</strong></h4>
+                                    <p class="comment-time">{{imeFormatter(comment.ctime)}}</p>
+                                    <h5>{{comment.content}}</h5>
+                                    <button class="btn btn-default" style="float:right;"><a href="#comment" @click="reply(comment.id,comment.username)">回复</a></button>
+                                </div>
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <!-- :class="pageNum == 1 'disabled':''" -->
+                                    <li :class="page == 1 ?'disabled' : ''" @click.prevent="page = 1;getComment()">
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li v-for="pageNum in pageNumList" @click.prevent="page = pageNum;getComment()"
+                                        :class="page == pageNum ?'active':''"><a href="#">{{pageNum}}</a></li>
+                                    <!-- :class="pageNum == pageNumList.length ? 'disabled':''" -->
+                                    <li :class="page >= pageNumList.length ?'disabled':''" @click.prevent="page = pageNumList.length;getComment()">
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alertBox-wra" v-show="showAlert">
+            <div class="alertBox">
+                <h2 style="padding-top:30px;text-align: center;">您尚未登录！</h2>
+                <div class="row" style="padding-top:50px;">
+                    <div class="col-lg-3"></div>
+                    <button type="button" class="btn btn-success col-lg-2" @click="">继续浏览</button>
+                    <div class="col-lg-2"></div>
+                    <button type="button" class="btn btn-primary col-lg-2" @click="goLogin">去登陆</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="messageBox" :class="messageType">
+            <h3>提示:</h3>
+            <span class="msgCon">
+                {{msgCon}}
+            </span>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">预定详情</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="col-md-4 col-md-offset-3">
+                                <label for="dayNum">住几晚</label><input id="dayNum" type="number" v-model="book.dayNum" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-3">
+                                <label for="inTime">入住日期:</label><input id="inTime" type="date" v-model="book.inTime" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" @click="bookRoom">确定</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <script src="./js/hotelDetail.js"></script>
+</body>
+
+</html>

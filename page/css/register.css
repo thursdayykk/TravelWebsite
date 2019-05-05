@@ -1,0 +1,51 @@
+*{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+html,body,.wra{
+    width:100%;
+    height:100%;
+}
+.wra .top{
+    width:100%;
+    height:80px;
+    border-bottom:3px solid #f60;
+}
+.top .logo{
+    /* border:1px solid #000; */
+    height:100%;
+    width:200px;
+    margin:0 300px;
+    display: inline-block;
+}
+.top .logo a{
+    display: inline-block;
+    height:100%;
+    width:200px;
+    background: url(../img/logoko1.png);
+    background-size: 113% 122%;
+    background-repeat: no-repeat;
+}
+.login-btn{
+    display: inline-block;
+    text-align: right;
+    vertical-align: top;
+    margin-top:30px;
+    margin-left:50px;
+}
+.register-wra{
+    padding-top:80px;
+    width:100%;
+    /* border:1px solid #000; */
+    padding-left:300px;
+}
+.register-wra .form-wra{
+    width:45%;
+}
+.control-label{
+    text-align: left!important;
+}
+.form-group .btn{
+    width:100%;
+}

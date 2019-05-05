@@ -1,0 +1,51 @@
+.content{
+    margin-top:100px;
+}
+.content .nav{
+    font-size:20px;
+}
+.userCon{
+    margin-top:20px;
+    background:#fff;
+    box-shadow: 2px 3px 50px #333;
+    margin-left:16px;
+    /* padding-bottom:50px; */
+    padding:30px 30px 50px 50px;
+    border-radius: 10px;
+}
+
+.userBooking-wra .bookItem img{
+    width:180px;
+    height:100px;
+}
+.bookItem{
+    border-bottom:1px solid #ccc;
+    padding-bottom:20px;
+    padding-top:10px;
+}
+.bookStatus{
+    width:80px;
+    height:80px;
+    font-size:18px;
+    font-weight:600;
+    line-height:80px;
+    text-align: center;
+    border-radius: 50%;
+    
+}
+.bookStatus.booking{
+    border:2px solid #f90;
+    color:#f90;
+}
+.bookStatus.livein{
+    border:2px solid #21C48E;
+    color:#21C48E;
+}
+.bookStatus.finished{
+    border:2px solid gray;
+    color:gray;
+}
+.bookStatus.unbook{
+    border:2px solid #f60;
+    color:#f60;
+}

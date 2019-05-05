@@ -1,0 +1,31 @@
+
+			*{
+				margin:0;
+				padding:0;
+			}
+			.starts{			
+				/* padding-left: 40%;
+				padding-top:100px;			 */
+			}
+			.starts ul{
+				float:left;
+			}
+			.starts ul li{
+				list-style: none;
+				width:32px;
+				height:21px;
+				float:left;
+				background:url(../img/stark2.png) no-repeat;
+				
+			}
+			.starts ul li.on{
+				background:url(../img/stars2.png) no-repeat;
+			}
+			.starts ul span{
+				display:inline;
+				float:left;
+				padding-left:10px;
+				height:21px;
+				line-height:21px;
+			}
+		

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>游厦门</title>
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/hotel.css">
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.min.js"></script>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div>
+            <div class="logo-wra">
+
+            </div>
+            <div class="menu-wra">
+                <ul>
+                    <li><a href="/index.html">
+                            <h3>首页</h3>
+                        </a></li>
+                    <li><a href="/scenery.html">
+                            <h3>景区</h3>
+                        </a></li>
+                    <li class="active"><a href="/hotel.html">
+                            <h3>酒店</h3>
+                        </a></li>
+                    <li><a href="/blog.html">
+                            <h3>攻略</h3>
+                        </a></li>
+                    <li><a href="/store.html">
+                            <h3>美食</h3>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="login-wra" id="loginTop">
+                <a href="/login.html" v-show="!isLogin">登录</a>
+                <ul class="nav navbar-nav navbar-right" v-show="isLogin">
+                    <li><a href="#">
+                            <img :src=" user.pic " alt="" style="width:50px;height:50px;border-radius:50%;">
+                        </a></li>
+                    <li class="dropdown" style="margin-top:20px;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false">
+                            {{user.username}}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" @click.prevent="loginOut">登出</a></li>
+                            <li><a href="#" @click.prevent="goCheckUser">个人资料</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <script src="./js/user.js"></script>
+    <div class="search">
+        <div class="search-wra">
+            <i class="glyphicon glyphicon-search search-btn"></i>
+            <input type="text" id="search-inp" placeholder="民宿/酒店/别墅/海景房/经济酒店">
+        </div>
+    </div>
+    <div id="app">
+        <div class="content">
+            <div class="left">
+                <div class="mid-menu-wra">
+                    <div>
+                        <h3>分类</h3>
+                        <ul class="first">
+                            <li v-for="(item,index) in hotelType" :class="chooseType == index ? 'active':''" @click="chooseType = index">{{item}}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>区域</h3>
+                        <ul>
+                            <li v-for="(item,index) in areaList" :class="chooseArea == index ? 'active':''" @click="chooseArea = index">{{item}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="hot-hotel-wra">
+                    <p class="title">热门住宿<span class="label label-danger hot-tab">HOT</span></p>
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img src="./img/hotel1.jpg" alt="...">
+                            </div>
+                            <div class="item">
+                                <img src="./img/hotel2.jpg" alt="...">
+                            </div>
+                            <div class="item">
+                                <img src="./img/hotel3.jpg" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hotel">
+            <div class="hotel-item" v-for="item in hotelList">
+                <div class="hotel-pic">
+                    <img :src="item.pic" alt="">
+                </div>
+                <div class="hotel-content">
+                    <div class="hotel-name"><a :href="'http://localhost:8088/hotelDetail.html?hotelId='+item.id">{{item.name}}</a></div>
+                    <div class="hotel-addr">
+                        <i class="glyphicon glyphicon-map-marker"></i>{{item.address}}
+                    </div>
+                    <div class="hotel-device">
+                        <ul>
+                            <li v-for="el in item.device"><span>{{el}}</span><i class="glyphicon glyphicon-ok"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hotel-grade">
+                    <p class="grade"><span>{{item.grade}}</span>分</p>
+                    <p class="buy-num">{{item.livedNum}}人住过</p>
+                </div>
+                <div class="hotel-detail">
+                    <p>
+                        <span>￥</span>
+                        <span class="hotel-money">{{item.money}}</span>
+                        <span>起</span>
+                    </p>
+                    <div class="detail-btn">
+                        <button type="button" class="btn btn-warning">查看详情</button>
+                    </div>
+
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                        <!-- :class="pageNum == 1 'disabled':''" -->
+                    <li :class= "page == 1 ?'disabled' : ''">
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li v-for="pageNum in pageNumList" @click.prevent="page = pageNum" :class="page == pageNum ?'active':''"><a href="#">{{pageNum}}</a></li>
+                    <!-- :class="pageNum == pageNumList.length ? 'disabled':''" -->
+                    <li :class="page >= pageNumList.length ?'disabled':''">
+                        <a href="#" aria-label="Next" >
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 
+    <script src="./js/search.js"></script> -->
+    <script src="./js/hotel.js"></script>
+
+</body>
+
+</html>

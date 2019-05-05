@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>游厦门-登录</title>
+    <link rel="stylesheet" href="./css/register.css">
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.min.js"></script>
+
+</head>
+
+<body>
+    <div class="wra">
+        <div class="top">
+            <div class="logo">
+                <a href="/index.html" class="logo-pic"></a>
+            </div>
+            <div class="login-btn">
+                <p>
+                    <span>没有账号？</span>
+                    <button type="button" class="btn btn-warning" onclick="window.location.href='http://localhost:8088/register.html'">注册</button>
+                </p>
+            </div>
+        </div>
+
+        <div class="register-wra">
+
+            <div class="form-wra">
+                <form class="form-horizontal" id="loginForm">
+                    <div class="form-group   col-sm-10" :class="unClass">
+                        <label class="control-label" for="username">用户名</label>
+                        <input type="text" class="form-control " v-model="username" @blur="checkUserName" id="username"
+                            aria-describedby="helpBlock2">
+                        <span id="helpBlock2" class="help-block">{{usernameText}}</span>
+                    </div>
+                    <div class="form-group  col-sm-10" :class="psdClass">
+                        <label class="control-label" for="password">密码</label>
+                        <input type="password" class="form-control" v-model="password" id="password" @blur="checkPsd"
+                            aria-describedby="helpBlock">
+                        <span id="helpBlock" class="help-block">{{psdText}}</span>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-left:15px;width:368px;">
+                            <button class="btn btn-warning" @click.prevent ="login">登录</button>
+                        </div>
+                    </div>
+                    <p class="tips">还没有账号？<a href="/register.html">去注册</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./js/login.js"></script>
+</body>
+
+</html>
