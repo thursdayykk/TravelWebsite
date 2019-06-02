@@ -143,7 +143,7 @@
                             <p class="bookStatus" :class="roomStatusClass[item.status]">{{roomStatus[item.status]}}</p>
                             <button type="button" class="btn btn-primary" v-if="item.status == 0" @click="unBook(item.id);item.status='-1'">取消预定</button>
                         </div>
-                        <div class="row" v-show="item.status == 2 && item.grade == 0">
+                        <!-- <div class="row" v-show="item.status == 2 && item.grade == 0">
                             <div class="col-md-4 col-md-offset-8">
                                 <div class="starts">
                                     <ul id="pingStar">
@@ -157,7 +157,7 @@
                                     <input type="hidden" value="" id="startP" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -167,46 +167,6 @@
 
     <script src="./js/user.js"></script>
     <script src="./js/userMsg.js"></script>
-    <script>
-        window.onload = function () {
-            var s = document.getElementById("pingStar");
-            var m = document.getElementById("dir");
-            var n = s.getElementsByTagName("li");
-            var input = document.getElementById("startP");//保存所选值
-            clearAll = function () {
-                for (var i = 0; i < n.length; i++) {
-                    n[i].className = "";
-                }
-            }
-            for (var i = 0; i < n.length; i++) {
-                n[i].onclick = function () {
-                    var q = this.getAttribute("rel");
-                    clearAll();
-                    input.value = q;
-                    for (var i = 0; i < q; i++) {
-                        n[i].className = "on";
-                    }
-                    m.innerHTML = this.getAttribute("title");
-                }
-                n[i].onmouseover = function () {
-                    var q = this.getAttribute("rel");
-                    clearAll();
-                    for (var i = 0; i < q; i++) {
-                        n[i].className = "on";
-                    }
-                    m.innerHTML = this.getAttribute("title");
-                }
-                n[i].onmouseout = function () {
-                    clearAll();
-                    for (var i = 0; i < input.value; i++) {
-                        n[i].className = "on";
-                    }
-
-                }
-            }
-        }
-
-    </script>
 </body>
 
 </html>

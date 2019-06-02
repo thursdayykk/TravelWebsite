@@ -63,7 +63,7 @@ function addUser(req,resp){
     // console.log(req)
     var params = req.body;
     userDao.addUser(params.username,params.password,params.power,res =>{
-        console.log(res)
+        // console.log(res)
         resp.writeHead(200);
         resp.write(respUtil.writeResult("success","注册成功",res));
         resp.end();
@@ -91,7 +91,7 @@ function queryFormalUser(req,resp){
     var params = req.body;
     console.log(params)
     userDao.queryUserByUserName(params.username,res =>{
-        console.log(res)
+        // console.log(res)
         if(res.length > 0){
             if(res[0].power != 0){
                 resp.writeHead(200);
@@ -128,12 +128,12 @@ function checkUser(req,resp){
     userDao.queryUserName(params.username,res =>{
         console.log(res)
         if(!res[0]){
-            console.log('1')
+            // console.log('1')
             resp.writeHead(200);
             resp.write(respUtil.writeResult("success","不存在此用户",null ));
 
         }else{
-            console.log('2')
+            // console.log('2')
             resp.writeHead(200);
             resp.write(respUtil.writeResult("success","已存在此用户",null));
         }
@@ -158,4 +158,28 @@ function queryUserByUserId(req,resp){
 }
 
 path.set("/queryUserByUserId",queryUserByUserId);
+
+function queryUser(req,resp){
+    var params = url.parse(req.url,true).query;
+    userDao.queryUserCount(result =>{
+        // console.log(result)
+        userDao.queryUser(parseInt(params.page),parseInt(params.pageSize),res =>{
+            let reList = {};
+            reList.count = result[0].count;
+            for(let i =0;i<res.length;i++){
+                if(res[i].pic){
+                    res[i].pic = res[i].pic.toString()
+                }
+            }
+
+            reList.userList = res;
+            resp.writeHead(200);
+            resp.write(respUtil.writeResult("success","查询成功",reList ));
+            resp.end();
+        })
+    })
+
+}
+
+path.set("/queryUser",queryUser);
 module.exports.path = path;

@@ -25,7 +25,7 @@
                     <div class="col-lg-6">
                         <div class="search-wra">
                             <div class="search-con">
-                                <input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略">
+                                <input type="text" id="search-inp" onfocus="window.location.href='http://localhost:8088/search.html'" placeholder="景区/酒店/美食/攻略">
                                 <div class="search-btn"><i class="glyphicon glyphicon-search"></i></div>
                             </div>
                         </div>
@@ -72,9 +72,9 @@
                                 <p class="hotel-addr">{{hotel.address}}</p>
                                 <p class="hotel-money">￥<span>{{hotel.money}} </span>起</p>
                             </div>
-                            <div class="hotel-grade">
+                            <!-- <div class="hotel-grade">
                                 <p> <span class="grade">{{hotel.grade}}</span>分</p>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="hotel-pic">
                             <img :src="hotel.pic" alt="">
@@ -129,20 +129,20 @@
                         <div class="hotel-comment" v-show="activeName == 'second'">
                             <div class="comment-inp" id="comment">
                                 <input type="hidden" id="commentParent" v-model="parentId">
-                                <textarea class="_j_comment_content" v-model="commentText" :disabled="isLogin"
+                                <textarea class="_j_comment_content" v-model="commentText"
                                     :placeholder="parentId? '回复@'+parentUserName+':' :'评论一下吧'"></textarea>
-                                <button type="button" class="toComment-btn" :disabled="isLogin" @click="addComment(hotel.id)">评论</button>
+                                <button type="button" class="toComment-btn"  @click="addComment(hotel.id)">评论</button>
                             </div>
                             <h3>网友评论 ({{commentTotal}})</h3>
                             <div class="comment-item" v-for="comment in commentList">
                                 <div class="headpic">
-                                    <img :src="comment.userpic == 'null' ? './img/19.jpg':comment.userpic" alt="">
+                                    <img :src="comment.userPic == 'null' ? './img/19.jpg':comment.userPic" alt="">
                                 </div>
                                 <div class="comment-detail">
-                                    <h4 class="comment-username">{{comment.username}} <strong>回复：{{comment.parent_username}}</strong></h4>
+                                    <h4 class="comment-username">{{comment.userName}} <strong>回复：{{comment.parentName}}</strong></h4>
                                     <p class="comment-time">{{imeFormatter(comment.ctime)}}</p>
                                     <h5>{{comment.content}}</h5>
-                                    <button class="btn btn-default" style="float:right;"><a href="#comment" @click="reply(comment.id,comment.username)">回复</a></button>
+                                    <button class="btn btn-default" style="float:right;"><a href="#comment" @click="reply(comment['user_id'],comment.userName)">回复</a></button>
                                 </div>
                             </div>
                             <nav aria-label="Page navigation">

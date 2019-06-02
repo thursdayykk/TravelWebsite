@@ -1,7 +1,7 @@
 var hotelDetail = new Vue({
     el: '#hotelDetail',
     data: {
-        hId:window.location.search,
+        hId: window.location.search,
         hotel: {},
         commentList: [],
         roomList: [],
@@ -13,26 +13,31 @@ var hotelDetail = new Vue({
         isLogin: false,
         commentText: "",
         parentId: 0,
-        parentUserName:"",
+        parentUserName: "",
         commentTotal: 0,
         page: 1,
         pageSize: 10,
         pageNumList: [],
-        book:{
-            roomId:'',
-            dayNum:1,
-            inTimme:'',
+        book: {
+            roomId: '',
+            dayNum: 1,
+            inTimme: '',
         }
     },
     created() {
-        this.getHotel();
-        if (!window.sessionStorage.getItem('userId')) {
-            this.isLogin = true;
+        if (location.search && location.search.split("=")[1]) {
+            this.getHotel();
+            if (!window.sessionStorage.getItem('userId')) {
+                this.isLogin = true;
+            }
+            this.getComment();
+            if (window.location.hash.split("#")[1] == 'comment') {
+                this.activeName = 'second';
+            }
+        } else {
+            window.location.href = "http://localhost:8088/error.html"
         }
-        this.getComment();
-        if(window.location.hash.split("#")[1] == 'comment'){
-            this.activeName = 'second';
-        } 
+
     },
     methods: {
         imeFormatter(value) {
@@ -80,33 +85,45 @@ var hotelDetail = new Vue({
 
             // })
         },
-        chooseRoom(id){
+        chooseRoom(id) {
             this.book.id = id;
         },
         bookRoom() {
             let rId = this.book.id;
             let uId = window.sessionStorage.getItem('userId')
             if (!uId) {
-                this.showAlert = true;
+                // this.showAlert = true;
+                alert("请先登录！")
                 return;
             }
             if (rId && uId) {
-                if(!this.book.inTime){
+                if (!this.book.inTime) {
                     alert('请填写入住日期！');
                     return;
                 }
-                if(!this.book.dayNum){
+                if (!this.book.dayNum) {
                     alert('请填写住几晚！');
-                    return ;
+                    return;
                 }
-                axios.post('/bookingRoom',{
+                if (this.book.inTime) {
+                    if (new Date().getMonth() + 1 > parseInt(this.book.inTime.split("-")[1])) {
+                        alert("请填写正确的入住日期");
+                        return;
+                    }
+                    if (new Date().getMonth() + 1 == parseInt(this.book.inTime.split("-")[1])) {
+                        if (new Date().getDate() > parseInt(this.book.inTime.split("-")[2])) {
+                            alert("请填写正确的入住日期");
+                            return;
+                        }
+                    }
+
+                }
+                axios.post('/bookingRoom', {
                     rId,
                     uId,
-                    dayNum:this.book.dayNum,
-                    inTime:this.book.inTime
+                    dayNum: this.book.dayNum,
+                    inTime: this.book.inTime
                 }).then(res => {
-
-                    console.log(res);
                     $('#myModal').modal('hide')
                     this.messageBox('success', '预定房间成功！')
                 }).catch(res => {
@@ -119,8 +136,8 @@ var hotelDetail = new Vue({
 
         },
         getComment() {
-            let root =this;
-            axios.get('/getCommentByHotelId' + window.location.search + '&page=' + (this.page -1) + "&pageSize=" + this.pageSize)
+            let root = this;
+            axios.get('/getCommentByHotelId' + window.location.search + '&page=' + (this.page - 1) + "&pageSize=" + this.pageSize)
                 .then(res => {
                     console.log(res)
                     // this.commentList = res.data.data;
@@ -157,6 +174,10 @@ var hotelDetail = new Vue({
                 this.messageBox('error', '评论失败！')
                 return
             } else {
+                if (!window.sessionStorage.getItem('userId')) {
+                    alert('请先登录！')
+                    return;
+                }
                 let hotelId = hId;
                 let uId = window.sessionStorage.getItem('userId');
                 let username = window.sessionStorage.getItem('username');
@@ -164,7 +185,7 @@ var hotelDetail = new Vue({
                 let text = this.commentText;
                 let pId = this.parentId;
                 let pun = this.parentUserName;
-                console.log(pun)
+                // console.log(pun)
                 // console.log(pic)
                 axios.post('/addHotelComment', {
                     text,
@@ -173,10 +194,11 @@ var hotelDetail = new Vue({
                     username,
                     pic,
                     pId,
-                    parentusername:pun
+                    parentusername: pun
                 }).then(res => {
                     this.messageBox('success', '评论成功！');
-                    history.go(0);
+                    // history.go(0);
+                    this.getComment();
                 }).catch(res => {
                     this.messageBox('error', '评论失败！')
                 })
@@ -186,7 +208,7 @@ var hotelDetail = new Vue({
             console.log(cId, username)
             this.parentId = cId;
             this.parentUserName = username;
-            // this.addComment(this.hId);
+            this.addComment(this.hId);
         }
     }
 })

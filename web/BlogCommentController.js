@@ -1,31 +1,31 @@
 var userDao = require("../dao/UserDao");
-var hotelCommentDao = require("../dao/HotelCommentDao");
+var blogCommentDao = require("../dao/BlogCommentDao");
 var respUtil = require("../util/RespUtil");
 var url = require('url');
 
 
 var path = new Map();
 
-function addHotelComment(req,resp){
+function addBlogComment(req,resp){
     // var params = url.parse(req.url,true).query;
     // console.log(req)
     var params = req.body;
     // console.log(params)
-    hotelCommentDao.addHotelComment(params.uId,params.username,params.pic,params.text,params.hId,params.pId,params.parentusername,res =>{
+    blogCommentDao.addBlogComment(params.uId,params.text,params.bId,params.pId,res =>{
         resp.writeHead(200);
         resp.write(respUtil.writeResult("success","评论成功",res));
         resp.end();
 
     })
 }
-path.set("/addHotelComment",addHotelComment);
+path.set("/addBlogComment",addBlogComment);
 
-function getCommentByHotelId(req,resp){
+function getCommentByBlogId(req,resp){
     var params = url.parse(req.url,true).query;
     // console.log(req)
     // var params = req.body;
-    hotelCommentDao.getCommentByHotelIdCount(parseInt(params.hotelId),res=>{
-        hotelCommentDao.getCommentByHotelId(parseInt(params.hotelId),parseInt(params.page),parseInt(params.pageSize),result =>{
+    blogCommentDao.getCommentByBlogIdCount(parseInt(params.blogId),res=>{
+        blogCommentDao.getCommentByBlogId(parseInt(params.blogId),parseInt(params.page),parseInt(params.pageSize),result =>{
             for(let i = 0;i<result.length;i++){
                 userDao.queryUserByUserId(result[i]['user_id'],user=>{
                     result[i].userName = user[0].username;
@@ -41,9 +41,7 @@ function getCommentByHotelId(req,resp){
                         result[i].parentName = user[0].username;
                     })
                 }
-                 if(result[i].userpic){
-                     result[i].userpic = result[i].userpic.toString()
-                 }
+
             }
             setTimeout(()=>{
                 resp.writeHead(200);
@@ -59,19 +57,7 @@ function getCommentByHotelId(req,resp){
     })
 
 }
-path.set("/getCommentByHotelId",getCommentByHotelId);
+path.set("/getCommentByBlogId",getCommentByBlogId);
 
-function deleteHotelCommentById(req,resp){
-    // var params = url.parse(req.url,true).query;
-    // console.log(req)
-    var params = req.body;
-    // console.log(params)
-    hotelCommentDao.deleteHotelCommentById(params.deleteId,res =>{
-        resp.writeHead(200);
-        resp.write(respUtil.writeResult("success","删除成功",res));
-        resp.end();
-    })
-}
-path.set("/deleteHotelCommentById",deleteHotelCommentById);
 
 module.exports.path = path;

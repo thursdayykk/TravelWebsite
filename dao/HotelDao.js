@@ -173,7 +173,52 @@ function updateLivedNumById(hId,success){
     });
     connection.end();
 }
+function searchHotel(content,success){
+    var querySql = "select id,pic,name from hotel where name LIKE ?;";
+    var params = ['%'+content+'%'];
 
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql,params,(err,res) =>{
+        if(err == null){
+            success(res)
+        }else{
+            console.log(err)
+        }
+    });
+    connection.end();
+}
+function queryHotHotel(success){
+    var querySql = "select id,pic,name from hotel order by livedNum limit 3;";
+    var params = [];
+
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql,params,(err,res) =>{
+        if(err == null){
+            success(res)
+        }else{
+            console.log(err)
+        }
+    });
+    connection.end();
+}
+
+function deleteHotel(id,success){
+    var querySql = "delete from hotel where id = ?";
+    var params = [id];
+
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql,params,(err,res) =>{
+        if(err == null){
+            success(res)
+        }else{
+            console.log(err)
+        }
+    });
+    connection.end();
+}
 module.exports.getHotelByUserId = getHotelByUserId;
 module.exports.insertHotel = insertHotel;
 module.exports.updatetHotel = updatetHotel;
@@ -181,3 +226,6 @@ module.exports.getHotelCount = getHotelCount;
 module.exports.queryHotel = queryHotel;
 module.exports.queryHotelById = queryHotelById;
 module.exports.updateLivedNumById= updateLivedNumById;
+module.exports.searchHotel= searchHotel;
+module.exports.queryHotHotel= queryHotHotel;
+module.exports.deleteHotel= deleteHotel;

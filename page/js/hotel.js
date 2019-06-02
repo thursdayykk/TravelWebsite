@@ -23,7 +23,8 @@ var app = new Vue({
             '星级酒店',
             '民宿',
             '豪华宾馆'
-        ]
+        ],
+        hotHotel:[],
     },
     watch:{
         chooseArea(){
@@ -36,7 +37,8 @@ var app = new Vue({
         }
     },
     created() {
-        this.getHotel()
+        this.getHotel();
+        this.getHotHotel();
     },
     methods:{
         getHotel(){
@@ -58,6 +60,11 @@ var app = new Vue({
                 })
             }).catch(res=>{
                 console.log(res)
+            })
+        },
+        getHotHotel(){
+            axios.get('/queryHotHotel').then(res=>{
+                this.hotHotel = res.data.data
             })
         }
     }

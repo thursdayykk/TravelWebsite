@@ -140,6 +140,30 @@ function queryHotelById(req,resp){
 }
 path.set("/queryHotelById",queryHotelById);
 
+function queryHotHotel(req,resp){
+    var params = url.parse(req.url,true).query;
+    // var params = req.body;
 
+    hotelDao.queryHotHotel(res =>{
+        for(let i =0;i<res.length;i++){
+            res[i].pic = res[i].pic.toString()
+        }
+        resp.writeHead(200);
+        resp.write(respUtil.writeResult("success","查询成功",res));
+        resp.end();
+    })
+}
+path.set("/queryHotHotel",queryHotHotel);
 
+function deleteHotel(req,resp){
+    var params = url.parse(req.url,true).query;
+    hotelDao.deleteHotel(parseInt(params.id),res =>{
+        resp.writeHead(200);
+        resp.write(respUtil.writeResult("success","删除成功",null));
+        resp.end();
+
+    })
+
+}
+path.set("/deleteHotel",deleteHotel);
 module.exports.path = path;

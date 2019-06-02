@@ -25,7 +25,7 @@
                     <div class="col-lg-6">
                         <div class="search-wra">
                             <div class="search-con">
-                                <input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略">
+                                <input type="text" id="search-inp" onfocus="window.location.href='http://localhost:8088/search.html'"  placeholder="景区/酒店/美食/攻略" >
                                 <div class="search-btn"><i class="glyphicon glyphicon-search"></i></div>
                             </div>
                         </div>
@@ -54,72 +54,112 @@
         </div>
     </div>
     <script src="./js/user.js"></script>
-    <div class="content">
+    <div class="content" id="store">
         <div class="store-wra">
             <div class="left">
                 <div class="crumb">
                     <ol class="breadcrumb">
                         <li><a href="/index.html">游厦门</a></li>
                         <li><a href="/store.html">美食</a></li>
-                        <li class="active">店名</li>
+                        <li class="active">{{store.name}}</li>
                     </ol>
                 </div>
                 <div class="store-content">
                     <div class="store-title">
                         <div class="title-left">
-                            <h2 class="store-name">agua 西班牙餐厅</h2>
-                            <p class="avg-money">￥<span>159</span> /人均</p>
+                            <h2 class="store-name">{{store.name}}</h2>
+                            <p class="avg-money">￥<span>{{store.money}}</span> /人均</p>
                         </div>
                         <div class="title-right">
-                            <p class="store-grade"><span>4.6</span>分</p>
+                            <!-- <p class="store-grade"><span>4.6</span>分</p> -->
                         </div>
                     </div>
                     <div class="store-detail">
                         <div class="store-msg">
-                            <p>
-                                <span class="msg-name">地址:</span>
-                                <span class="msg-content">朝阳区三里屯北街81号那里花园4层</span>
-                            </p>
-                            <p>
-                                <span class="msg-name">电话:</span>
-                                <span class="msg-content">010-52086188/52086198/13126606183</span>
-                            </p>
-                            <p>
-                                <span class="msg-name">营业时间:</span>
-                                <span class="msg-content">周一至周日 12:00-14:00 18:00-22:00</span>
-                            </p>
-                            <div class="store-tag">
-                                <span>甜品</span>
-                                <span>饮料</span>
-                                <span>牛排</span>
-                                <span>蛋糕</span>
-                                <span>甜品</span>
-                                <span>饮料</span>
-                                <span>牛排</span>
-                                <span>蛋糕</span>
-                                <span>甜品</span>
-                                <span>饮料</span>
-                                <span>牛排</span>
-                                <span>蛋糕</span>
-                                <span>甜品</span>
-                                <span>饮料</span>
-                                <span>牛排</span>
-                                <span>蛋糕</span>
-                                <span>甜品</span>
-                                <span>饮料</span>
-                                <span>牛排</span>
-                                <span>蛋糕</span>
 
+                            <div class="msg-top">
+                                <div class="msg-left">
+                                    <p>
+                                        <span class="msg-name">地址:</span>
+                                        <span class="msg-content">{{store.address}}</span>
+                                    </p>
+                                    <p>
+                                        <span class="msg-name">电话:</span>
+                                        <span class="msg-content">{{store.phone}}</span>
+                                    </p>
+                                    <p>
+                                        <span class="msg-name">营业时间:</span>
+                                        <span class="msg-content">{{store.opentime}}</span>
+                                    </p>
+                                    <div class="store-tag">
+                                        <span v-for="item in food">{{item.name}}</span>
+                                    </div>
+
+                                </div>
+                                <div class="store-pic">
+                                    <img :src="store.pic" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="store-pic">
-                            <img src="./img/hotel3.jpg" alt="">
+
+
                         </div>
                     </div>
                 </div>
+                <div class="food-wra">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" :class="activeName=='food'?'active':''"  @click.prevent="activeName='food'"><a href="#">菜品</a></li>
+                        <li role="presentation" :class="activeName=='comment'?'active':'' " @click.prevent="activeName='comment'"><a href="#">评论区</a></li>
+                    </ul>
+                    <div class="food" v-show="activeName=='food'">
+                        <div class="food-item" v-for="food in food">
+                            <img :src="food.pic" style="width:200px;height:120px" alt="">
+                            <p class="food-name">{{food.name}}</p>
+                            <p class="food-money">￥<span>{{food.money}}</span>/元</p>
+                        </div>
+                    </div>
+                    <div class="comment-wra" v-show="activeName=='comment'">
+                        <div class="comment-inp" id="comment">
+                            <input type="hidden" id="commentParent" v-model="parentId">
+                            <textarea class="_j_comment_content" v-model="commentText"
+                                :placeholder="parentId? '回复@'+parentUserName+':' :'评论一下吧'"></textarea>
+                            <button type="button" class="toComment-btn"  @click="addComment(store.id)">评论</button>
+                        </div>
+                        <h3>网友评论 ({{commentTotal}})</h3>
+                        <div class="comment-item" v-for="comment in commentList">
+                            <div class="headpic">
+                                <img :src="comment.userPic == 'null' ? './img/19.jpg':comment.userPic" alt="">
+                            </div>
+                            <div class="comment-detail">
+                                <h4 class="comment-username">{{comment.userName}} <strong>回复：{{comment.parentName}}</strong></h4>
+                                <p class="comment-time">{{imeFormatter(comment.ctime)}}</p>
+                                <h5>{{comment.content}}</h5>
+                                <button class="btn btn-default" style="float:right;"><a href="#comment" @click="reply(comment['user_id'],comment.userName)">回复</a></button>
+                            </div>
+                        </div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <!-- :class="pageNum == 1 'disabled':''" -->
+                                <li :class="page == 1 ?'disabled' : ''" @click.prevent="page = 1;getComment()">
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li v-for="pageNum in pageNumList" @click.prevent="page = pageNum;getComment()"
+                                    :class="page == pageNum ?'active':''"><a href="#">{{pageNum}}</a></li>
+                                <!-- :class="pageNum == pageNumList.length ? 'disabled':''" -->
+                                <li :class="page >= pageNumList.length ?'disabled':''" @click.prevent="page = pageNumList.length;getComment()">
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
+        <script src="./js/storeDetail.js"></script>
 </body>
 
 </html>

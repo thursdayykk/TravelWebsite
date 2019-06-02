@@ -24,7 +24,7 @@
                     <div class="col-lg-6">
                         <div class="search-wra">
                             <div class="search-con">
-                                <input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略">
+                                <input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略" onfocus="window.location.href='http://localhost:8088/search.html'">
                                 <div class="search-btn"><i class="glyphicon glyphicon-search"></i></div>
                             </div>
                         </div>
@@ -53,129 +53,89 @@
         </div>
     </div>
     <script src="./js/user.js"></script>
-    <div class="content ">
+    <div class="content " id="blogDetail">
         <div class="blog-wra">
             <div class="left">
                 <div class="crumb">
                     <ol class="breadcrumb">
                         <li><a href="/index.html">游厦门</a></li>
                         <li><a href="/blog.html">攻略</a></li>
-                        <li class="active">攻略名s</li>
+                        <li class="active">{{ detail.title}}</li>
                     </ol>
                 </div>
                 <div class="blog-con">
-                    <h2 class="blog-title">鼓浪屿三日游</h2>
+                    <h2 class="blog-title">{{ detail.title}}</h2>
                     <p class="blog-msg">
-                        <span>发布于 2010-10-12 14:22</span>
-                        <span><i class="glyphicon glyphicon-eye-open"></i> ( 1114 )次</span>
-                        <span><i class="glyphicon glyphicon-comment"></i> ( 0 )条</span>
+                        <span>发布于 {{imeFormatter(detail.ctime)}}</span>
+                        <span><i class="glyphicon glyphicon-eye-open"></i> ( {{detail.views}} )次</span>
+                        <span><i class="glyphicon glyphicon-comment"></i> ( {{commentTotal}} )条</span>
                     </p>
                     <div class="schedule-wra">
                         <div class="schedule-item">
-                            <div class="sign"></div>
                             <div class="item-con">
                                 <div class="schedule-detail">
-                                    <img src="./img/swiper5.jpeg" alt="" class="blog-pic">
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-calendar"></i> 出行天数:</span>3
+                                    <img :src="detail.pic" alt="" class="blog-pic">
+                                    <p><span class="orange-color"><i class="glyphicon glyphicon-calendar"></i> 出行天数:</span>{{detail.dayNum}}
                                         天</p>
                                     <p><span class="orange-color"><i class="glyphicon glyphicon-flag"></i> 目的地:</span>
-                                        <a href=""> 鼓浪屿</a></p>
+                                        {{detail.destinations}}</p>
                                     <p><span class="orange-color"> <i class="glyphicon glyphicon-bed"></i> 交通:</span>
-                                        集美学村站上车 <a href="">918</a> 终点站下车 乘坐 鼓浪屿轮渡</p>
+                                        {{detail.traffic}}</p>
                                     <p><span class="orange-color"><i class="glyphicon glyphicon-home"></i> 住宿:</span>
-                                        下车后步行600m可到达 <a href=""> 当地民宿</a> 放下行李</p>
+                                        {{detail.live}}</p>
                                     <p><span class="orange-color"><i class="glyphicon glyphicon-yen"></i> 人均费用:</span>
-                                        1800 RMB</p>
+                                        {{detail.money}} RMB</p>
                                 </div>
                                 <div class="schedule-depict">
-                                    <h5>【行程简述】</h5>
+                                    <h4>【行程简述】</h4>
                                     <p class="depict">
-                                        4月的第一天，今天我们不过愚人节！而是很幸运和几个盆友跟着一名靠谱的鼓浪屿土著，她带着我们另辟蹊径逛小岛，跟着她去逛不常逛的另一面，拜访平时不能去的老别墅，亲身走进那百年老洋楼，目睹洋楼的真实生活，在老洋房里吃上一顿美味的娘惹菜料理。赖着慵懒的午后时光，穿上一身旗袍长衫拍照，结束后开启一段南洋风味的下午茶时光，最后出门移步到月光岩邂逅一场唯美的日落，在这里将鼓浪屿全景尽收眼底，还有夕阳时分的鹭江道……
+                                        {{detail.content}}
                                     </p>
                                 </div>
-                                <div class="schedule-detail-item">
-                                    <h4 class="green-color title">DAY 1</h4>
-                                    <p class="item-depict">第一天去干什么的简述</p>
+                                <div class="schedule-detail-item" v-for="item in detail.shecdule">
+                                    <h4 class="green-color title">DAY {{item.day}}</h4>
+                                    <p class="item-depict">{{item.content}}</p>
                                     <p><span class="orange-color"><i class="glyphicon glyphicon-flag"></i> 目的地:</span>
-                                        <a href=""> 鼓浪屿</a></p>
+                                        {{item.destination}}</p>
                                     <p><span class="orange-color"> <i class="glyphicon glyphicon-bed"></i> 交通:</span>
-                                        集美学村站上车 <a href="">鼓浪屿直通车</a> 终点站下车</p>
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-cutlery"></i> 早饭:</span>
-                                        离民宿1km <a href=""> xxxx餐厅</a></p>
-                                </div>
-
-                                <div class="schedule-detail-item">
-                                    <h4 class="green-color title">第二天</h4>
-                                    <p class="item-depict">第一天去干什么的简述</p>
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-flag"></i> 目的地:</span>
-                                        <a href=""> 鼓浪屿</a></p>
-                                    <p><span class="orange-color"> <i class="glyphicon glyphicon-bed"></i> 交通:</span>
-                                        集美学村站上车 <a href="">鼓浪屿直通车</a> 终点站下车</p>
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-cutlery"></i> 早饭:</span>
-                                        离民宿1km <a href=""> xxxx餐厅</a></p>
-                                </div>
-                                <div class="schedule-detail-item">
-                                    <h4 class="green-color title">第三天</h4>
-                                    <p class="item-depict">第一天去干什么的简述</p>
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-flag"></i> 目的地:</span>
-                                        <a href=""> 鼓浪屿</a></p>
-                                    <p><span class="orange-color"> <i class="glyphicon glyphicon-bed"></i> 交通:</span>
-                                        集美学村站上车 <a href="">鼓浪屿直通车</a> 终点站下车</p>
-                                    <p><span class="orange-color"><i class="glyphicon glyphicon-cutlery"></i> 早饭:</span>
-                                        离民宿1km <a href=""> xxxx餐厅</a></p>
+                                        {{item.traffic}}
+                                    <p><span class="orange-color"><i class="glyphicon glyphicon-cutlery"></i> 吃饭:</span>
+                                        {{item.store}}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="comment-wra">
-                        <div class="comment-inp">
-                            <textarea class="_j_comment_content">说点什么吧...</textarea>
-                            <button type="button" class="toComment-btn">评论</button>
+                        <div class="comment-inp" id="comment">
+                            <input type="hidden" id="commentParent" v-model="parentId">
+                            <textarea class="_j_comment_content" v-model="commentText"
+                                :placeholder="parentId? '回复@'+parentUserName+':' :'评论一下吧'"></textarea>
+                            <button type="button" class="toComment-btn"  @click="addComment(detail.id)">评论</button>
                         </div>
-                        <h3>网友评论 (10)</h3>
-                        <div class="comment-item">
+                        <h3>网友评论 ({{commentTotal}})</h3>
+                        <div class="comment-item" v-for="comment in commentList">
                             <div class="headpic">
-                                <img src="./img/swiper2.jpeg" alt="">
+                                <img :src="comment.userPic == 'null' ? './img/19.jpg':comment.userPic" alt="">
                             </div>
                             <div class="comment-detail">
-                                <h4 class="comment-username">用户名</h4>
-                                <p class="comment-time">2018-10-12 14:52</p>
-                                <h5>哈哈哈哈？？？</h5>
-                            </div>
-                        </div>
-                        <div class="comment-item">
-                            <div class="headpic">
-                                <img src="./img/swiper2.jpeg" alt="">
-                            </div>
-                            <div class="comment-detail">
-                                <h4 class="comment-username">用户名</h4>
-                                <p class="comment-time">2018-10-12 14:52</p>
-                                <h5>哈哈哈哈？？？</h5>
-                            </div>
-                        </div>
-                        <div class="comment-item">
-                            <div class="headpic">
-                                <img src="./img/swiper2.jpeg" alt="">
-                            </div>
-                            <div class="comment-detail">
-                                <h4 class="comment-username">用户名</h4>
-                                <p class="comment-time">2018-10-12 14:52</p>
-                                <h5>哈哈哈哈？？？</h5>
+                                <h4 class="comment-username">{{comment.userName}} <strong>回复：{{comment.parentName}}</strong></h4>
+                                <p class="comment-time">{{imeFormatter(comment.ctime)}}</p>
+                                <h5>{{comment.content}}</h5>
+                                <button class="btn btn-default" style="float:right;"><a href="#comment" @click="reply(comment['user_id'],comment.userName)">回复</a></button>
                             </div>
                         </div>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
-                                <li class="disabled">
+                                <!-- :class="pageNum == 1 'disabled':''" -->
+                                <li :class="page == 1 ?'disabled' : ''" @click.prevent="page = 1;getComment()">
                                     <a href="#" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
+                                <li v-for="pageNum in pageNumList" @click.prevent="page = pageNum;getComment()"
+                                    :class="page == pageNum ?'active':''"><a href="#">{{pageNum}}</a></li>
+                                <!-- :class="pageNum == pageNumList.length ? 'disabled':''" -->
+                                <li :class="page >= pageNumList.length ?'disabled':''" @click.prevent="page = pageNumList.length;getComment()">
                                     <a href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
@@ -189,40 +149,25 @@
                 <div class="tab tag">
                     <h3>标签</h3>
                     <ul>
-                        <li><a href="">鼓浪屿</a></li>
-                        <li><a href="">三日游</a></li>
-                        <li><a href="">亲子游</a></li>
-                        <li><a href="">毕业游</a></li>
-                        <li><a href="">自驾游</a></li>
+                        <li v-for="tag in detail.tags.split(',')">{{tag}}</li>
                     </ul>
                 </div>
                 <div class="tab hot-blog">
                     <h3>最热攻略 <span class="label label-warning">HOT</span></h3>
                     <ul>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
+                        <li class="title" v-for="item in hotBlog"><a :href="'http://localhost:8088/blogDetail.html?id='+item.id">{{item.title}}</a></li>
                     </ul>
                 </div>
                 <div class="tab new-blog">
                     <h3>最新攻略 <span class="label label-danger">NEW</span></h3>
                     <ul>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
-                        <li class="title"><a href="">鼓浪屿三日游</a></li>
+                        <li class="title" v-for="item in newBlog"><a :href="'http://localhost:8088/blogDetail.html?id='+item.id">{{item.title}}</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+    <script src="./js/blogDetail.js"></script>
 </body>
 
 </html>

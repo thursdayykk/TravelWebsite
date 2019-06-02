@@ -118,6 +118,7 @@ var registerForm = new Vue({
             }).catch(res => {
                 console.log("请求失败！")
             })
-        }
+        },
+    
     }
 })

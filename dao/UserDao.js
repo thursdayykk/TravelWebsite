@@ -84,6 +84,37 @@ function queryUserByUserId(uId,success){
     connection.end();
 }
 
+function queryUser(page,pageSize,success){
+    var querySql = "select * from user order by id asc limit ?,?;";
+    var params = [page * pageSize,pageSize];
+
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql,params,(err,res) =>{
+        if(err == null){
+            success(res)
+        }else{
+            console.log(err)
+        }
+    });
+    connection.end();
+}
+function queryUserCount(success){
+    var querySql = "select count(1) as count from user";
+    var params = [];
+
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql,params,(err,res) =>{
+        if(err == null){
+            success(res)
+        }else{
+            console.log(err)
+        }
+    });
+    connection.end();
+}
+
 
 
 module.exports.queryUserByUserName = queryUserByUserName;
@@ -91,3 +122,6 @@ module.exports.addUser = addUser;
 module.exports.updateUser = updateUser;
 module.exports.queryUserName = queryUserName;
 module.exports.queryUserByUserId = queryUserByUserId;
+module.exports.queryUser = queryUser; //无条件分页获取
+module.exports.queryUserCount = queryUserCount;
+

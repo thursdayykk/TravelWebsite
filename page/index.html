@@ -99,14 +99,14 @@
 			<span class="sr-only">Next</span>
 		</a>
 	</div>
-	<div class="center-wra">
+	<div class="center-wra" id="index">
 		<div class="search-wra">
 			<i class="glyphicon glyphicon-search search-btn"></i>
-			<input type="text" id="search-inp" placeholder="景区/酒店/美食/攻略">
+			<input type="text" id="search-inp"   @focus="goSearch" placeholder="景区/酒店/美食/攻略">
 		</div>
-		<div class="title-wra">
+		<div class="title-wra" >
 			<div class="datetime">
-				<h3>2019/04/08 14:55:22</h3>
+				<h3>{{date}}</h3>
 			</div>
 			<div class="slogan">
 				<h2>去厦门旅游。</h2>
@@ -115,6 +115,8 @@
 		</div>
 	</div>
 	<script src="./js/user.js"></script>
+	<script src="./js/index.js"></script>
+
 </body>
 
 </html>

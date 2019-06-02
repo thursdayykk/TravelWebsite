@@ -28,21 +28,22 @@ var loginForm = new Vue({
                     username: loginForm.username,
                     password: loginForm.password
                 }).then(res => {
-                    console.log(res)
                     if(res.data.status == 'error'){
                         loginForm.unClass = "has-error";
                         loginForm.psdClass = "has-error";
                         alert(res.data.msg)
                         
                     }else if(res.data.status == 'success'){
-                        console.log(res)
                         let data = res.data.data[0]
                         window.sessionStorage.setItem('username',data.username);
                         window.sessionStorage.setItem('password',data.password);
                         window.sessionStorage.setItem('pic',data.pic);
                         window.sessionStorage.setItem('userId',data.id);
-                        console.log(window.sessionStorage.getItem('username'))
-                        history.back();
+                        if(document.referrer == 'http://localhost:8088/register.html'){
+                            window.location.href="http://localhost:8088/index.html"
+                        }else{
+                            history.back();
+                        }
                     }
                 }).catch(res => {
                     alert('登录失败！')
